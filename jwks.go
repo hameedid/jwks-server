@@ -43,7 +43,6 @@ func publicJWKFromKeypair(kp KeyPair) JWK {
 }
 
 func (s *Server) handleJWKS(w http.ResponseWriter, r *http.Request) {
-	// Must be GET
 	if r.Method != http.MethodGet {
 		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
 		return
@@ -52,7 +51,6 @@ func (s *Server) handleJWKS(w http.ResponseWriter, r *http.Request) {
 	now := time.Now()
 	keys := []JWK{}
 
-	// Only serve the unexpired key
 	if !s.KS.Active.IsExpired(now) {
 		keys = append(keys, publicJWKFromKeypair(s.KS.Active))
 	}
