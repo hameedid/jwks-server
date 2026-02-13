@@ -114,7 +114,6 @@ func TestIsExpiredTrueAndFalse(t *testing.T) {
 }
 
 func TestJWKSHelpersProduceValues(t *testing.T) {
-	// exercise helper funcs: b64urlInt, b64urlBigInt, publicJWKFromKeypair
 	s := setupTestServer(t)
 
 	jwk := publicJWKFromKeypair(s.KS.Active)
@@ -126,7 +125,6 @@ func TestJWKSHelpersProduceValues(t *testing.T) {
 		t.Fatal("expected kid, n, e to be non-empty")
 	}
 
-	// also directly hit b64 helpers
 	if b64urlInt(65537) == "" {
 		t.Fatal("expected b64urlInt to return non-empty string")
 	}
@@ -140,7 +138,6 @@ func TestRoutesJWKSAndAuthThroughMux(t *testing.T) {
 	ts := httptest.NewServer(s.routes())
 	defer ts.Close()
 
-	// JWKS
 	resp, err := http.Get(ts.URL + "/.well-known/jwks.json")
 	if err != nil {
 		t.Fatalf("jwks request failed: %v", err)
@@ -150,7 +147,6 @@ func TestRoutesJWKSAndAuthThroughMux(t *testing.T) {
 	}
 	resp.Body.Close()
 
-	// AUTH
 	resp2, err := http.Post(ts.URL+"/auth", "application/json", nil)
 	if err != nil {
 		t.Fatalf("auth request failed: %v", err)
