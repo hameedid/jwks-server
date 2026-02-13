@@ -57,12 +57,12 @@ func NewKeyStore() (*KeyStore, error) {
 	return &KeyStore{
 		Active: KeyPair{
 			KID:       activeKID,
-			ExpiresAt: now.Add(1 * time.Hour), // unexpired key
+			ExpiresAt: now.Add(1 * time.Hour),
 			Private:   activePriv,
 		},
 		Expired: KeyPair{
 			KID:       expiredKID,
-			ExpiresAt: now.Add(-1 * time.Hour), // already expired
+			ExpiresAt: now.Add(-1 * time.Hour),
 			Private:   expiredPriv,
 		},
 	}, nil
