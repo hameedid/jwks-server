@@ -8,7 +8,7 @@ import (
 )
 
 func (s *Server) handleAuth(w http.ResponseWriter, r *http.Request) {
-	// Must be POST
+	
 	if r.Method != http.MethodPost {
 		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
 		return
@@ -16,7 +16,7 @@ func (s *Server) handleAuth(w http.ResponseWriter, r *http.Request) {
 
 	now := time.Now()
 
-	// If "expired" query parameter is present, sign with expired key and make exp in the past
+	
 	useExpired := r.URL.Query().Has("expired")
 
 	var kp KeyPair
@@ -24,10 +24,10 @@ func (s *Server) handleAuth(w http.ResponseWriter, r *http.Request) {
 
 	if useExpired {
 		kp = s.KS.Expired
-		exp = now.Add(-1 * time.Minute) // expired token
+		exp = now.Add(-1 * time.Minute) 
 	} else {
 		kp = s.KS.Active
-		exp = now.Add(5 * time.Minute) // valid token
+		exp = now.Add(5 * time.Minute) 
 	}
 
 	claims := jwt.MapClaims{
@@ -39,7 +39,6 @@ func (s *Server) handleAuth(w http.ResponseWriter, r *http.Request) {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodRS256, claims)
 
-	// kid MUST be in header
 	token.Header["kid"] = kp.KID
 
 	signed, err := token.SignedString(kp.Private)
