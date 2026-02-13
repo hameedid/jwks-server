@@ -19,11 +19,8 @@ func NewServer() (*Server, error) {
 
 func (s *Server) routes() http.Handler {
 	mux := http.NewServeMux()
-
-	// JWKS endpoint
 	mux.HandleFunc("/.well-known/jwks.json", s.handleJWKS)
 
-	// Auth endpoint
 	mux.HandleFunc("/auth", s.handleAuth)
 
 	return mux
