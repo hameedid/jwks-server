@@ -18,7 +18,6 @@ type KeyStore struct {
 	Expired KeyPair
 }
 
-// random KID (good enough for this assignment)
 func newKID() (string, error) {
 	b := make([]byte, 16)
 	_, err := rand.Read(b)
@@ -29,7 +28,6 @@ func newKID() (string, error) {
 }
 
 func generateRSAKey() (*rsa.PrivateKey, error) {
-	// 2048-bit RSA key
 	return rsa.GenerateKey(rand.Reader, 2048)
 }
 
@@ -69,6 +67,5 @@ func NewKeyStore() (*KeyStore, error) {
 }
 
 func (kp KeyPair) IsExpired(at time.Time) bool {
-	// expired if at >= ExpiresAt
 	return !at.Before(kp.ExpiresAt)
 }
